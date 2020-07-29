@@ -10,6 +10,7 @@ File description:
 # Imports
 import os
 import pandas as pd
+from PIL import Image
 
 import tensorflow as tf
 
@@ -27,3 +28,4 @@ BATCH_SIZE = 32
 DATA_DIR = os.path.join(os.getcwd(), "data")
 CELEB_DATASET_CSV = os.path.join(DATA_DIR, "list_attr_celeba.csv")
 DATASETS_DIR = os.path.join(DATA_DIR, "datasets")
+IMAGES_DIR = os.path.join(DATA_DIR, "celeba")
