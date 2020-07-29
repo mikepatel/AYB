@@ -41,9 +41,14 @@ if __name__ == "__main__":
 
     # use df to copy images to appropriate directories
     #image_files = os.listdir(IMAGES_DIR)
+    # populate Training directory
     for index, row in df.iterrows():
-        if row["Black"] == 1:
-            image_filepath = os.path.join(IMAGES_DIR, row["image_id"])
-            print(image_filepath)
-            image = Image.open(image_filepath)
-            
+        image_filepath = os.path.join(IMAGES_DIR, row["image_id"])
+        image = Image.open(image_filepath)
+
+        if row["Black"] == 1:  # save in "Black"
+            image.save(os.path.join(TRAIN_DIR, "Black\\"+row["image_id"]))
+
+        else:  # save in "Not Black"
+            image.save(os.path.join(TRAIN_DIR, "Not Black\\"+row["image_id"]))
+
