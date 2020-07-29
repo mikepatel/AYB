@@ -20,7 +20,7 @@ if __name__ == "__main__":
     # read in labels
     classes = []
     int2class = {}
-    directories = os.listdir(DATASET_DIR)  # Test, Training
+    directories = os.listdir(DATASETS_DIR)  # Test, Training
     for i in range(len(directories)):
         name = directories[i]
         classes.append(name)
@@ -30,3 +30,8 @@ if __name__ == "__main__":
 
     print(f'Classes: {classes}')
     print(f'Number of classes: {num_classes}')
+
+    # read in CSV data
+    df = pd.read_csv(CELEB_DATASET_CSV)
+    df = df[:12000]  # first 12k images
+    df = df[["image_id", "Black"]]

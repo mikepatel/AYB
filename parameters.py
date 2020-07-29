@@ -23,5 +23,7 @@ IMAGE_CHANNELS = 3
 NUM_EPOCHS = 1
 BATCH_SIZE = 32
 
-# directories
-DATASET_DIR = os.path.join(os.getcwd(), "data\\datasets")
+# directories and files
+DATA_DIR = os.path.join(os.getcwd(), "data")
+CELEB_DATASET_CSV = os.path.join(DATA_DIR, "list_attr_celeba.csv")
+DATASETS_DIR = os.path.join(DATA_DIR, "datasets")
