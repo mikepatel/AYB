@@ -18,7 +18,7 @@ import tensorflow as tf
 ################################################################################
 # Image dimension
 IMAGE_WIDTH = 128
-IMAGE_HEIGH = 128
+IMAGE_HEIGHT = 128
 IMAGE_CHANNELS = 3
 
 NUM_EPOCHS = 1
@@ -31,3 +31,5 @@ DATASETS_DIR = os.path.join(DATA_DIR, "datasets")
 IMAGES_DIR = os.path.join(DATA_DIR, "celeba")
 TRAIN_DIR = os.path.join(DATASETS_DIR, "Train")
 TEST_DIR = os.path.join(DATASETS_DIR, "Test")
+
+TEMP_DIR = os.path.join(os.getcwd(), "temp")

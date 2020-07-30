@@ -20,7 +20,7 @@ if __name__ == "__main__":
     # read in labels
     classes = []
     int2class = {}
-    directories = os.listdir(DATASETS_DIR)  # Test, Training
+    directories = os.listdir(TRAIN_DIR)  # Train
     for i in range(len(directories)):
         name = directories[i]
         classes.append(name)
@@ -39,6 +39,7 @@ if __name__ == "__main__":
     # how many rows have Black=1?
     print(f'Number of rows with Black=1: {len(df.loc[df["Black"] == 1])}')
 
+    """
     # use df to copy images to appropriate directories
     # populate Training directory
     for index, row in df.iterrows():
@@ -51,4 +52,23 @@ if __name__ == "__main__":
 
         else:  # save in "Not Black"
             image.save(os.path.join(TRAIN_DIR, "Not Black\\"+image_filename))
+    """
 
+    # image generator
+    image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
+        rescale=1./255  # [0, 255] --> [0, 1]
+    )
+
+    train_data_gen = image_generator.flow_from_directory(
+        directory=TRAIN_DIR,
+        target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
+        color_mode="rgb",
+        class_mode="binary",
+        classes=classes,
+        batch_size=BATCH_SIZE,
+        shuffle=True,
+        save_to_dir=TEMP_DIR  # temp
+    )
+
+    next(train_data_gen)
+    quit()
