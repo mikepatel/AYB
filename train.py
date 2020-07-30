@@ -17,6 +17,8 @@ if __name__ == "__main__":
     # TF version
     print(f'TF version: {tf.__version__}')
 
+    # ----- ETL ----- #
+    # ETL = Extraction, Transformation, Load
     # read in labels
     classes = []
     int2class = {}
@@ -66,9 +68,25 @@ if __name__ == "__main__":
         class_mode="binary",
         classes=classes,
         batch_size=BATCH_SIZE,
-        shuffle=True,
-        save_to_dir=TEMP_DIR  # temp
+        shuffle=True
+        #save_to_dir=TEMP_DIR  # temp
     )
 
-    next(train_data_gen)
-    quit()
+    #next(train_data_gen)
+    #quit()
+
+    # ----- MODEL ----- #
+    vgg16 = tf.keras.applications.vgg16.VGG16(
+        input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
+        include_top=False
+    )
+
+    for layer in vgg16.layers[:-4]:
+        layer.trainable = False
+
+    model = tf.keras.models.Sequential()
+    model.add(vgg16)
+
+    # ----- TRAIN ----- #
+
+    # ----- EVALUATE ----- #
