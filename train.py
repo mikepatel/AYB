@@ -81,12 +81,34 @@ if __name__ == "__main__":
         include_top=False
     )
 
-    for layer in vgg16.layers[:-4]:
-        layer.trainable = False
+    #for layer in vgg16.layers[:-4]:
+    #    layer.trainable = False
+    vgg16.trainable = False
 
     model = tf.keras.models.Sequential()
     model.add(vgg16)
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(
+        units=1024,
+        activation=tf.keras.activations.relu
+    ))
+    model.add(tf.keras.layers.Dense(
+        units=num_classes,
+        activation=tf.keras.activations.sigmoid
+    ))
+
+    model.compile(
+        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        optimizer=tf.keras.optimizers.Adam(),
+        metrics=["accuracy"]
+    )
+
+    model.summary()
 
     # ----- TRAIN ----- #
+    history = model.fit(
+        x=train_data_gen,
+        epochs=NUM_EPOCHS
+    )
 
     # ----- EVALUATE ----- #
