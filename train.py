@@ -5,10 +5,13 @@ June 2020
 Project description:
 
 File description:
+
+conda activate ayb
 """
 ################################################################################
 # Imports
 from parameters import *
+from model import build_model
 
 
 ################################################################################
@@ -76,27 +79,7 @@ if __name__ == "__main__":
     #next(train_data_gen)
     #quit()
 
-    # ----- MODEL ----- #
-    vgg16 = tf.keras.applications.vgg16.VGG16(
-        input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
-        include_top=False
-    )
-
-    #for layer in vgg16.layers[:-4]:
-    #    layer.trainable = False
-    vgg16.trainable = False
-
-    model = tf.keras.models.Sequential()
-    model.add(vgg16)
-    model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dense(
-        units=1024,
-        activation=tf.keras.activations.relu
-    ))
-    model.add(tf.keras.layers.Dense(
-        units=num_classes,
-        activation=tf.keras.activations.sigmoid
-    ))
+    model = build_model(num_classes=num_classes)
 
     model.compile(
         loss=tf.keras.losses.sparse_categorical_crossentropy,
