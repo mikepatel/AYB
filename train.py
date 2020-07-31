@@ -112,3 +112,28 @@ if __name__ == "__main__":
     )
 
     # ----- EVALUATE ----- #
+    # test black
+    test_black_dir = os.path.join(TEST_DIR, "Black")
+
+    # test not black
+    test_not_black_dir = os.path.join(TEST_DIR, "Not Black")
+
+    # convert image to array
+    dirs = [test_black_dir, test_not_black_dir]
+    for d in dirs:
+        images = os.listdir(d)
+        for image in images:
+            image_filepath = os.path.join(d, image)
+
+            image = Image.open(image_filepath)
+
+            image = image.resize((IMAGE_WIDTH, IMAGE_HEIGHT))
+            image = np.array(image)
+            image = image.reshape(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS)
+            image = image / 255.0
+            image = np.expand_dims(image, 0)
+
+            prediction = model.predict(image)
+            print()
+            print(image_filepath)
+            print(int2class[int(np.argmax(prediction))])
