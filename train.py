@@ -58,6 +58,7 @@ if __name__ == "__main__":
 
     # image generator
     image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
+        validation_split=0.1,
         rescale=1./255  # [0, 255] --> [0, 1]
     )
 
@@ -111,6 +112,16 @@ if __name__ == "__main__":
         epochs=NUM_EPOCHS
     )
 
+    # plot accuracy
+    plt.plot(history.history["accuracy"], label="accuracy")
+    #plt.plot(history.history["val_accuracy"], label="val_accuracy")
+    plt.title("Training Accuracy")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
+    plt.grid()
+    plt.legend(loc="lower right")
+    plt.savefig(os.path.join(os.getcwd(), "training"))
+
     # ----- EVALUATE ----- #
     # test black
     test_black_dir = os.path.join(TEST_DIR, "Black")
@@ -135,5 +146,5 @@ if __name__ == "__main__":
 
             prediction = model.predict(image)
             print()
-            print(image_filepath)
+            #print(image_filepath)
             print(int2class[int(np.argmax(prediction))])
