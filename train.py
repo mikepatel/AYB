@@ -113,7 +113,7 @@ if __name__ == "__main__":
     )
 
     # plot accuracy
-    plt.plot(history.history["accuracy"], label="accuracy")
+    plt.scatter(range(1, NUM_EPOCHS+1), history.history["accuracy"], label="accuracy", s=500)
     #plt.plot(history.history["val_accuracy"], label="val_accuracy")
     plt.title("Training Accuracy")
     plt.xlabel("Epoch")
