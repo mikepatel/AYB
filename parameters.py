@@ -23,8 +23,8 @@ IMAGE_WIDTH = 128
 IMAGE_HEIGHT = 128
 IMAGE_CHANNELS = 3
 
-NUM_EPOCHS = 5
-BATCH_SIZE = 32
+NUM_EPOCHS = 20
+BATCH_SIZE = 64
 
 # directories and files
 DATA_DIR = os.path.join(os.getcwd(), "data")
@@ -33,5 +33,6 @@ DATASETS_DIR = os.path.join(DATA_DIR, "datasets")
 IMAGES_DIR = os.path.join(DATA_DIR, "celeba")
 TRAIN_DIR = os.path.join(DATASETS_DIR, "Train")
 TEST_DIR = os.path.join(DATASETS_DIR, "Test")
+VAL_DIR = os.path.join(DATASETS_DIR, "Validation")
 
 TEMP_DIR = os.path.join(os.getcwd(), "temp")

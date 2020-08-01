@@ -11,7 +11,7 @@ conda activate ayb
 ################################################################################
 # Imports
 from parameters import *
-from model import build_model
+from model import build_binary_classifier
 
 
 ################################################################################
@@ -36,6 +36,7 @@ if __name__ == "__main__":
     print(f'Classes: {classes}')
     print(f'Number of classes: {num_classes}')
 
+    """
     # read in CSV data
     df = pd.read_csv(CELEB_DATASET_CSV)
     df = df[:12000]  # first 12k images
@@ -44,7 +45,6 @@ if __name__ == "__main__":
     # how many rows have Black=1?
     print(f'Number of rows with Black=1: {len(df.loc[df["Black"] == 1])}')
 
-    """
     # use df to copy images to appropriate directories
     # populate Training directory
     for index, row in df.iterrows():
@@ -61,28 +61,40 @@ if __name__ == "__main__":
 
     # image generator
     image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
-        validation_split=0.1,
         rescale=1./255  # [0, 255] --> [0, 1]
     )
 
     train_data_gen = image_generator.flow_from_directory(
         directory=TRAIN_DIR,
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
-        color_mode="rgb",
         class_mode="binary",
-        classes=classes,
         batch_size=BATCH_SIZE,
         shuffle=True
         #save_to_dir=TEMP_DIR  # temp
     )
 
+    val_data_gen = image_generator.flow_from_directory(
+        directory=VAL_DIR,
+        target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
+        class_mode="binary",
+        batch_size=BATCH_SIZE,
+        shuffle=True
+    )
+
+    # size of datasets
+    num_train_images = len(os.listdir(os.path.join(TRAIN_DIR, "Black"))) + len(os.listdir(os.path.join(TRAIN_DIR, "Not Black")))
+    num_val_images = len(os.listdir(os.path.join(VAL_DIR, "Black"))) + len(os.listdir(os.path.join(VAL_DIR, "Not Black")))
+
+    print(f'Number of total train images: {num_train_images}')
+    print(f'Number of total validation images: {num_val_images}')
+
     #next(train_data_gen)
     #quit()
 
-    model = build_model(num_classes=num_classes)
+    model = build_binary_classifier()
 
     model.compile(
-        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        loss=tf.keras.losses.binary_crossentropy,
         optimizer=tf.keras.optimizers.Adam(),
         metrics=["accuracy"]
     )
@@ -92,7 +104,10 @@ if __name__ == "__main__":
     # ----- TRAIN ----- #
     history = model.fit(
         x=train_data_gen,
-        epochs=NUM_EPOCHS
+        epochs=NUM_EPOCHS,
+        steps_per_epoch=num_train_images // BATCH_SIZE,
+        validation_data=val_data_gen,
+        validation_steps=num_val_images // BATCH_SIZE
     )
 
     # plot accuracy
@@ -128,6 +143,5 @@ if __name__ == "__main__":
             image = np.expand_dims(image, 0)
 
             prediction = model.predict(image)
-            print()
             #print(image_filepath)
             print(int2class[int(np.argmax(prediction))])
