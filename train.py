@@ -91,6 +91,7 @@ if __name__ == "__main__":
     #next(train_data_gen)
     #quit()
 
+    # ----- MODEL ----- #
     model = build_binary_classifier()
 
     model.compile(
@@ -111,8 +112,8 @@ if __name__ == "__main__":
     )
 
     # plot accuracy
-    plt.scatter(range(1, NUM_EPOCHS+1), history.history["accuracy"], label="accuracy", s=400)
-    plt.scatter(range(1, NUM_EPOCHS+1), history.history["val_accuracy"], label="val_accuracy", s=400)
+    plt.scatter(range(1, NUM_EPOCHS+1), history.history["accuracy"], label="accuracy", s=300)
+    plt.scatter(range(1, NUM_EPOCHS+1), history.history["val_accuracy"], label="val_accuracy", s=300)
     plt.title("Training Accuracy")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
