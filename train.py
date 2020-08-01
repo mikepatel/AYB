@@ -111,8 +111,8 @@ if __name__ == "__main__":
     )
 
     # plot accuracy
-    plt.scatter(range(1, NUM_EPOCHS+1), history.history["accuracy"], label="accuracy", s=500)
-    plt.plot(history.history["val_accuracy"], label="val_accuracy")
+    plt.scatter(range(1, NUM_EPOCHS+1), history.history["accuracy"], label="accuracy", s=400)
+    plt.scatter(range(1, NUM_EPOCHS+1), history.history["val_accuracy"], label="val_accuracy", s=400)
     plt.title("Training Accuracy")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
@@ -144,4 +144,7 @@ if __name__ == "__main__":
 
             prediction = model.predict(image)
             #print(image_filepath)
-            print(int2class[int(np.argmax(prediction))])
+            prediction = prediction[0][0]
+            prediction = int(np.round(prediction))
+            print(int2class[prediction])
+            print()
