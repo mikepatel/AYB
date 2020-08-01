@@ -12,7 +12,7 @@ from parameters import *
 
 
 ################################################################################
-def build_model(num_classes):
+def build_binary_classifier():
     m = tf.keras.Sequential()
 
     # Convolution 1
@@ -20,6 +20,7 @@ def build_model(num_classes):
         filters=32,
         kernel_size=(3, 3),
         input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
+        padding="same",
         activation=tf.keras.activations.relu
     ))
 
@@ -27,6 +28,26 @@ def build_model(num_classes):
     m.add(tf.keras.layers.Conv2D(
         filters=64,
         kernel_size=(3, 3),
+        strides=2,
+        padding="same",
+        activation=tf.keras.activations.relu
+    ))
+
+    # Convolution 3
+    m.add(tf.keras.layers.Conv2D(
+        filters=128,
+        kernel_size=(3, 3),
+        strides=2,
+        padding="same",
+        activation=tf.keras.activations.relu
+    ))
+
+    # Convolution 4
+    m.add(tf.keras.layers.Conv2D(
+        filters=256,
+        kernel_size=(3, 3),
+        strides=2,
+        padding="same",
         activation=tf.keras.activations.relu
     ))
 
@@ -41,7 +62,8 @@ def build_model(num_classes):
 
     # Output
     m.add(tf.keras.layers.Dense(
-        units=num_classes
+        units=1,
+        activation=tf.keras.activations.sigmoid
     ))
 
     return m
