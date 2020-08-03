@@ -111,6 +111,9 @@ if __name__ == "__main__":
         validation_steps=num_val_images // BATCH_SIZE
     )
 
+    # save model
+    model.save(os.path.join(os.getcwd(), "saved_model"))
+
     # plot accuracy
     plt.scatter(range(1, NUM_EPOCHS+1), history.history["accuracy"], label="accuracy", s=300)
     plt.scatter(range(1, NUM_EPOCHS+1), history.history["val_accuracy"], label="val_accuracy", s=300)
@@ -147,5 +150,6 @@ if __name__ == "__main__":
             #print(image_filepath)
             prediction = prediction[0][0]
             prediction = int(np.round(prediction))
-            print(int2class[prediction])
+            prediction = int2class[prediction]
+            print(prediction)
             print()
