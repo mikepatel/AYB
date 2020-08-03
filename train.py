@@ -59,6 +59,13 @@ if __name__ == "__main__":
             image.save(os.path.join(TRAIN_DIR, "Not Black\\"+image_filename))
     """
 
+    # size of datasets
+    num_train_images = len(os.listdir(os.path.join(TRAIN_DIR, "Black"))) + len(os.listdir(os.path.join(TRAIN_DIR, "Not Black")))
+    num_val_images = len(os.listdir(os.path.join(VAL_DIR, "Black"))) + len(os.listdir(os.path.join(VAL_DIR, "Not Black")))
+
+    print(f'Number of total train images: {num_train_images}')
+    print(f'Number of total validation images: {num_val_images}')
+
     # image generator
     image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255  # [0, 255] --> [0, 1]
@@ -80,13 +87,6 @@ if __name__ == "__main__":
         batch_size=BATCH_SIZE,
         shuffle=True
     )
-
-    # size of datasets
-    num_train_images = len(os.listdir(os.path.join(TRAIN_DIR, "Black"))) + len(os.listdir(os.path.join(TRAIN_DIR, "Not Black")))
-    num_val_images = len(os.listdir(os.path.join(VAL_DIR, "Black"))) + len(os.listdir(os.path.join(VAL_DIR, "Not Black")))
-
-    print(f'Number of total train images: {num_train_images}')
-    print(f'Number of total validation images: {num_val_images}')
 
     #next(train_data_gen)
     #quit()
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     )
 
     # save model
-    model.save(os.path.join(os.getcwd(), "saved_model"))
+    model.save(SAVED_MODEL_DIR)
 
     # plot accuracy
     plt.scatter(range(1, NUM_EPOCHS+1), history.history["accuracy"], label="accuracy", s=300)
