@@ -74,7 +74,7 @@ if __name__ == "__main__":
     train_data_gen = image_generator.flow_from_directory(
         directory=TRAIN_DIR,
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
-        class_mode="binary",
+        class_mode="categorical",
         batch_size=BATCH_SIZE,
         shuffle=True
         #save_to_dir=TEMP_DIR  # temp
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     val_data_gen = image_generator.flow_from_directory(
         directory=VAL_DIR,
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
-        class_mode="binary",
+        class_mode="categorical",
         batch_size=BATCH_SIZE,
         shuffle=True
     )
