@@ -92,10 +92,35 @@ if __name__ == "__main__":
     #quit()
 
     # ----- MODEL ----- #
-    model = build_binary_classifier()
+    #model = build_binary_classifier()
+    vgg16 = tf.keras.applications.vgg16.VGG16(
+        input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
+        include_top=False
+    )
+
+    vgg16.trainable = False
+
+    model = tf.keras.Sequential()
+    model.add(vgg16)
+    model.add(tf.keras.layers.Flatten())
+
+    model.add(tf.keras.layers.Dense(
+        units=256,
+        activation=tf.keras.activations.relu
+    ))
+
+    model.add(tf.keras.layers.Dense(
+        units=128,
+        activation=tf.keras.activations.relu
+    ))
+
+    model.add(tf.keras.layers.Dense(
+        units=num_classes,
+        activation=tf.keras.activations.softmax
+    ))
 
     model.compile(
-        loss=tf.keras.losses.binary_crossentropy,
+        loss=tf.keras.losses.categorical_crossentropy,
         optimizer=tf.keras.optimizers.Adam(),
         metrics=["accuracy"]
     )
