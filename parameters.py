@@ -14,6 +14,9 @@ import pandas as pd
 from PIL import Image
 import matplotlib.pyplot as plt
 import cv2
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 
 import tensorflow as tf
 
@@ -24,7 +27,7 @@ IMAGE_WIDTH = 128
 IMAGE_HEIGHT = 128
 IMAGE_CHANNELS = 3
 
-NUM_EPOCHS = 100
+NUM_EPOCHS = 8
 BATCH_SIZE = 64
 
 # directories and files
